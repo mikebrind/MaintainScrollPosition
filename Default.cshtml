@@ -1,0 +1,29 @@
+﻿@{
+    Page.Title = "Maintain scroll position";
+    var db = Database.Open("Northwind");
+    var query = "SELECT * FROM Customers";
+    var data = db.Query(query);
+    var columns = new[]{"CustomerID", "CompanyName", "ContactName", "Address", "City", "Country", "Phone"};
+    var grid = new WebGrid(data, ajaxUpdateContainerId: "grid", columnNames: columns);
+}
+<h1>Maintain Scroll Position</h1>
+@for(var i = 1; i <= 30; i++){
+    <p>&nbsp;</p>
+}
+<a name="grid-anchor"></a>
+<div id="grid">
+    @grid.GetHtml(    
+        tableStyle : "table",
+        alternatingRowStyle : "alternate",
+        headerStyle : "header"
+    )
+</div>
+@section script{
+<script type="text/javascript">
+    $(function(){
+        $('th a, tfoot a').live('click', function(){
+            $(this).attr('href', '#grid-anchor');
+        });
+    });
+</script>    
+}
